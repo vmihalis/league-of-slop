@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>League of Chess</title>
+  <link rel="stylesheet" href="style.css" />
+  <script type="importmap">
+    { "imports": { "three": "./vendor/three.module.js", "three/addons/": "./vendor/addons/" } }
+  </script>
+</head>
+<body>
+  <div id="stage"></div>
+
+  <header class="topbar">
+    <div class="brand">
+      <span class="brand-mark">&#9876;</span>
+      <div>
+        <h1>League of Chess</h1>
+        <p>Demacia vs Noxus</p>
+      </div>
+    </div>
+    <div class="turn" id="turn"><span class="pip"></span><span id="turn-text">Demacia to move</span></div>
+  </header>
+
+  <aside class="panel roster" id="roster-panel">
+    <h2>Champions</h2>
+    <ul id="roster"></ul>
+  </aside>
+
+  <aside class="panel side">
+    <div class="controls">
+      <button id="btn-new">New game</button>
+      <button id="btn-undo">Undo</button>
+      <button id="btn-flip">Flip view</button>
+      <button id="btn-ai" aria-pressed="false">Vs AI: off</button>
+      <button id="btn-sound" aria-pressed="true">Sound: on</button>
+    </div>
+    <h2>Kill feed</h2>
+    <ol id="feed"></ol>
+    <h2>Moves</h2>
+    <ol id="moves"></ol>
+  </aside>
+
+  <div class="quote" id="quote" hidden>
+    <img id="quote-img" alt="" />
+    <div>
+      <div id="quote-name"></div>
+      <div id="quote-text"></div>
+    </div>
+  </div>
+
+  <div class="banner" id="banner" hidden></div>
+
+  <div class="modal" id="promo" hidden>
+    <div class="modal-card">
+      <h2>Promote Teemo to...</h2>
+      <div id="promo-options"></div>
+    </div>
+  </div>
+
+  <div class="loading" id="loading">Summoning champions...</div>
+
+  <script type="module" src="app.js"></script>
+</body>
+</html>

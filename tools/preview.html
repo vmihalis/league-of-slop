@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Model yaw preview</title>
+  <style>
+    body { margin: 0; background: #d9d9de; font: 14px system-ui, sans-serif; }
+    #grid { display: grid; grid-template-columns: repeat(4, 1fr); }
+    figure { margin: 0; text-align: center; }
+    canvas { width: 100%; display: block; }
+  </style>
+  <script type="importmap">
+    { "imports": { "three": "../vendor/three.module.js", "three/addons/": "../vendor/addons/" } }
+  </script>
+</head>
+<body>
+  <!-- Usage: tools/preview.html?m=darius  -> renders the model at yaw 0/90/180/270 from the +Z camera. -->
+  <div id="grid"></div>
+  <script type="module">
+    import * as THREE from 'three';
+    import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+    import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
+
+    const key = new URLSearchParams(location.search).get('m') || 'darius';
+    const gltf = await new GLTFLoader().loadAsync(`../assets/models/${key}.glb?v=${Date.now()}`);
+    const box = new THREE.Box3().setFromObject(gltf.scene);
+    const size = box.getSize(new THREE.Vector3()), center = box.getCenter(new THREE.Vector3());
+    gltf.scene.position.sub(center);
+    const r = size.length() / 2;
+
+    for (const deg of [0, 90, 180, 270]) {
+      const renderer = new THREE.WebGLRenderer({ antialias: true, preserveDrawingBuffer: true });
+      renderer.setSize(400, 400);
+      renderer.toneMapping = THREE.ACESFilmicToneMapping;
+      const scene = new THREE.Scene();
+      scene.background = new THREE.Color(0xd9d9de);
+      scene.environment = new THREE.PMREMGenerator(renderer).fromScene(new RoomEnvironment(), 0.04).texture;
+      const m = gltf.scene.clone();
+      const pivot = new THREE.Group();
+      pivot.add(m);
+      pivot.rotation.y = THREE.MathUtils.degToRad(deg);
+      scene.add(pivot);
+      const cam = new THREE.PerspectiveCamera(35, 1, 0.01, 100);
+      cam.position.set(0, r * 0.3, r * 3.4);
+      cam.lookAt(0, 0, 0);
+      renderer.render(scene, cam);
+      const fig = document.createElement('figure');
+      fig.append(renderer.domElement, Object.assign(document.createElement('figcaption'), { textContent: `yaw ${deg}°` }));
+      document.getElementById('grid').append(fig);
+    }
+    document.title = `${key} ready`;
+  </script>
+</body>
+</html>

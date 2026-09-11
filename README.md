@@ -1,4 +1,4 @@
-# League of Chess
+# League of Slop
 
 3D browser chess with funny League of Legends champion pieces on a Summoner's Rift board.
 Art generated with the Higgsfield CLI (Nano Banana Pro images, Tripo H3.1 image-to-3D).
@@ -34,4 +34,8 @@ No build step; three.js r170 and chess.js 1.0 are vendored in `vendor/`.
 Higgsfield CLI 1.1.13 note: passing a local path to `generate create --image` fails with an S3
 signature error, so `approve.py` uploads first with `higgsfield upload create` and passes the id.
 
-Fan project. League of Legends and its champions belong to Riot Games.
+## License
+
+Code is MIT (see `LICENSE`). This is an unofficial fan project: League of Legends, its champions,
+and Summoner's Rift are trademarks and IP of Riot Games, and the generated art depicts them, so
+the MIT grant covers the code only, not rights to Riot's characters.
